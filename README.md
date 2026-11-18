@@ -1,19 +1,20 @@
 # HireTrack
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748)](https://www.prisma.io/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)](https://www.postgresql.org/)
-
 
 ![Hero Screenshot](docs/hero_screenshot.png)
 
 🔗 **Live Demo:** [https://hiretrack-zeta.vercel.app](https://hiretrack-zeta.vercel.app)
 
 ## Overview
+
 HireTrack is a modern Applicant Tracking System (ATS) built with Next.js, TypeScript, Prisma, PostgreSQL, and NextAuth. It streamlines recruitment by providing candidate management, interview scheduling, analytics dashboards, and role-based collaboration.
 
 ## Why this project?
+
 This project was built as part of the Digital Heroes Full Stack Developer Trial Task to demonstrate modern full-stack engineering practices including authentication, RBAC, database design, analytics dashboards, drag-and-drop workflows, and scalable architecture.
 
 ---
@@ -21,6 +22,7 @@ This project was built as part of the Digital Heroes Full Stack Developer Trial 
 ## Features
 
 ### Features Table
+
 | Feature | Status | Description |
 | :--- | :---: | :--- |
 | **Authentication** | ✅ | Secure registration and login using email/password and Google OAuth via NextAuth. |
@@ -54,23 +56,26 @@ graph TD
 ## Tech Stack
 
 ### Frontend
-*   **Core:** Next.js 15 (App Router), React 19, TypeScript
-*   **Styling:** Tailwind CSS v4, next-themes (Light & Dark modes)
-*   **UI Primitives:** shadcn/ui (powered by @base-ui/react primitives), Lucide Icons
-*   **State Management:** TanStack Query (React Query)
-*   **Charts:** Recharts
+
+* **Core:** Next.js 16 (App Router), React 19, TypeScript
+* **Styling:** Tailwind CSS v4, next-themes (Light & Dark modes)
+* **UI Primitives:** shadcn/ui (powered by @base-ui/react primitives), Lucide Icons
+* **State Management:** TanStack Query (React Query)
+* **Charts:** Recharts
 
 ### Backend
-*   **ORM:** Prisma ORM v7
-*   **Database:** PostgreSQL (Supabase)
-*   **Authentication:** NextAuth v5 (Auth.js)
-*   **Form Validation:** Zod
-*   **File Storage:** Local Node.js stream uploads to public directory
+
+* **ORM:** Prisma ORM v7
+* **Database:** PostgreSQL (Supabase)
+* **Authentication:** NextAuth v5 (Auth.js)
+* **Form Validation:** Zod
+* **File Storage:** Local Node.js stream uploads to public directory
 
 ---
 
 ## Folder Structure
-```
+
+```text
 hiretrack/
 ├── app/                                # Next.js pages & layouts
 │   ├── (auth)/                         # Login & Registration views
@@ -81,7 +86,7 @@ hiretrack/
 │   ├── actions/                        # Next.js Server Actions
 │   ├── auth/                           # Permissions & configuration
 │   ├── db/                             # Prisma DB Client singleton
-│   ├── utils/                          # Constants & formatter utils
+│   ├── utils/                           # Constants & formatter utils
 │   └── validations/                    # Zod validation schemas
 ├── prisma/                             # Prisma Schema & Database Seeder
 └── docs/                               # Screenshots & documentation assets
@@ -102,6 +107,7 @@ hiretrack/
 ---
 
 ## Database Schema
+
 HireTrack uses a fully normalized schema containing 13 tables (Organization, User, Job, Candidate, Application, StageHistory, Interview, Scorecard, Notification, ActivityLog, etc.) to support a robust audit trail and full RBAC controls.
 
 Link to schema: [prisma/schema.prisma](prisma/schema.prisma)
@@ -111,12 +117,15 @@ Link to schema: [prisma/schema.prisma](prisma/schema.prisma)
 ## Setup & Local Installation
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Configure Environment Variables
+
 Create a `.env.local` file in the root directory:
+
 ```env
 DATABASE_URL="postgresql://username:password@host:port/dbname?sslmode=require"
 DIRECT_URL="postgresql://username:password@host:port/dbname?sslmode=require"
@@ -125,28 +134,37 @@ GOOGLE_CLIENT_ID="your-google-oauth-client-id"
 GOOGLE_CLIENT_SECRET="your-google-oauth-client-secret"
 ```
 
+Use your own development credentials. Never commit `.env.local` or real secrets to GitHub.
+
 ### 3. Deploy Database Schema
+
 Push the schema to your PostgreSQL instance:
+
 ```bash
 npx prisma generate
 npx prisma db push
 ```
 
 ### 4. Run Seeding Script
+
 Populate your database with mock recruitment data:
+
 ```bash
 npm run seed
 ```
 
 ### 5. Start Dev Server
+
 ```bash
 npm run dev
 ```
+
 Explore the app at `http://localhost:3000`.
 
 ---
 
 ## Seed Accounts (Testing Credentials)
+
 Running the seeder script populates the database with the following demo credentials:
 
 | Role | Email | Password | Permissions |
@@ -155,52 +173,64 @@ Running the seeder script populates the database with the following demo credent
 | **Recruiter** | `john@vercel.com` | `Password123` | Create/edit jobs, manage candidate profiles, move stages, and schedule interviews. |
 | **Interviewer** | `alice@vercel.com` | `Password123` | View jobs, read candidate profiles, and submit evaluation scorecards. |
 
+> **Note:** These are documented seed/demo credentials. Keep them only if they are generated by your seed script and are safe for public demonstration. Never use these passwords for real accounts.
+
 ---
 
 ## API Routes
-*   `POST /api/auth/[...nextauth]` — NextAuth route handler for session cookies and credentials parsing.
-*   `POST /api/upload` — Form file uploader saving candidate resumes and user avatars locally and returning URLs.
+
+* `POST /api/auth/[...nextauth]` — NextAuth route handler for session cookies and credentials parsing.
+* `POST /api/upload` — Form file uploader saving candidate resumes and user avatars locally and returning URLs.
 
 ---
 
 ## Deployment
 
 ### Intended Platforms
-*   **Frontend & Serverless Hosting:** Vercel (seamless App Router, Middleware, and Server Actions support).
-*   **Database:** Supabase PostgreSQL (utilizing pooled connections for serverless actions).
+
+* **Frontend & Serverless Hosting:** Vercel (seamless App Router, Middleware, and Server Actions support).
+* **Database:** Supabase PostgreSQL (utilizing pooled connections for serverless actions).
 
 ### Required Environment Variables (Production)
+
 Configure the following in your hosting provider dashboards:
-*   `DATABASE_URL` — Connection pooling URL.
-*   `NEXTAUTH_SECRET` — Unique 32-character JWT encryption key.
-*   `NEXTAUTH_URL` — The production domain name (e.g. `https://hiretrack-ats.vercel.app`).
-*   `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — OAuth values registered on Google Cloud Console.
+
+* `DATABASE_URL` — Connection pooling URL.
+* `NEXTAUTH_SECRET` — Unique secret key.
+* `NEXTAUTH_URL` — The production domain name (e.g. `https://hiretrack-ats.vercel.app`).
+* `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — OAuth values registered on Google Cloud Console.
 
 ---
 
 ## Roadmap
 
 ### Future Improvements
-*   **AI Resume Parsing:** Extract skills, experience, and contact details from PDF uploads automatically using serverless AI endpoints.
-*   **Email Automation:** Draft template trigger updates and schedule rejections directly from candidate stage controls.
-*   **Calendar Integration:** Connect meeting schedulers to Microsoft Outlook or Google Calendar.
-*   **Offer Letter Generator:** Create template dynamic offer forms pulling compensation values directly from job settings.
-*   **AI Candidate Ranking:** Rank pool applicants based on relevance to requirements text.
+
+* **AI Resume Parsing:** Extract skills, experience, and contact details from PDF uploads automatically using serverless AI endpoints.
+* **Email Automation:** Draft template trigger updates and schedule rejections directly from candidate stage controls.
+* **Calendar Integration:** Connect meeting schedulers to Microsoft Outlook or Google Calendar.
+* **Offer Letter Generator:** Create template dynamic offer forms pulling compensation values directly from job settings.
+* **AI Candidate Ranking:** Rank pool applicants based on relevance to requirements text.
 
 ---
 
 ## Project Documentation
-*   [Case Study](case_study.md) — Problem, technical approach, results, and architecture lessons learned.
-*   [Changelog](CHANGELOG.md) — Version release logs and features trace.
-*   [Contributing Guidelines](CONTRIBUTING.md) — Code style guides and pull request policies.
+
+* [Case Study](case_study.md) — Problem, technical approach, results, and architecture lessons learned.
+* [Changelog](CHANGELOG.md) — Version release logs and features trace.
+* [Contributing Guidelines](CONTRIBUTING.md) — Code style guides and pull request policies.
+
+---
 
 ## Author
 
-**Chandru S**
+**Hanish Vardhan**
 
-- Portfolio: https://chan-tech5.github.io/Portfolio/
-- GitHub: https://github.com/chan-tech5
-- LinkedIn: https://www.linkedin.com/in/chandru-s5
+- Email: [hanishvardhancs2005@gmail.com](mailto:hanishvardhancs2005@gmail.com)
+- GitHub: [HANISHVARDHANCS](https://github.com/HANISHVARDHANCS)
+
+---
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+No license has currently been specified for this repository. All rights are reserved by the copyright holder unless a license is added.
